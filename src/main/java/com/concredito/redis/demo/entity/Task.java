@@ -7,25 +7,17 @@ import org.springframework.data.redis.core.RedisHash;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-@RedisHash("User")
-public class User implements Serializable {
+@RedisHash("Task")
+public class Task implements Serializable {
 
     @Id
     private String id;
-    private String email;
-    private String password;
-    private boolean admin;
+    private String name;
+    private Long salary;
 
-    public void setId(String email) {
-        this.id = email;
-    }
 }

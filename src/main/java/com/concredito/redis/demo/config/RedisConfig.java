@@ -16,6 +16,7 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
+        @SuppressWarnings("null")
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(redisProperties.getHost(),
                 redisProperties.getPort());
         return new JedisConnectionFactory(configuration);

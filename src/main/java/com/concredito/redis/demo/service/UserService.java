@@ -29,4 +29,8 @@ public class UserService {
     public String delete(String id) {
         return userRepository.delete(id);
     }
+
+    public User patch(User user) {
+        return userRepository.patch(user);
+    }
 }
