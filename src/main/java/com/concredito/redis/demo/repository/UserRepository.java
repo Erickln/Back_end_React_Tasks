@@ -21,7 +21,7 @@ public class UserRepository {
         return user;
     }
 
-    public List<Object> findAll() {
+    public List<User> findAll() {
         return redisTemplate.opsForHash().values(HASH_KEY);
     }
 

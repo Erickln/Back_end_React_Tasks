@@ -13,6 +13,7 @@ import com.concredito.redis.demo.repository.UserRepository;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,17 +31,17 @@ public class DemoApplication {
 	}
 
 	@GetMapping
-	public List<Object> list() {
+	public List<User> list() {
 		return userRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
-	public User findById(String id) {
+	public User findById(@PathVariable String id) {
 		return userRepository.findById(id);
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(String id) {
+	public String delete(@PathVariable String id) {
 		return userRepository.delete(id);
 	}
 
