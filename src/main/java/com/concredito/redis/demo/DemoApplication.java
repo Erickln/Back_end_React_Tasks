@@ -1,4 +1,4 @@
-package com.concredito.redis;
+package com.concredito.redis.demo;
 
 import java.util.List;
 
@@ -21,29 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/user")
 public class DemoApplication {
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@PostMapping
-	public User save(@RequestBody User user) {
-		return userRepository.save(user);
-	}
-
-	@GetMapping
-	public List<User> list() {
-		return userRepository.findAll();
-	}
-
-	@GetMapping("/{id}")
-	public User findById(@PathVariable String id) {
-		return userRepository.findById(id);
-	}
-
-	@DeleteMapping("/{id}")
-	public String delete(@PathVariable String id) {
-		return userRepository.delete(id);
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
