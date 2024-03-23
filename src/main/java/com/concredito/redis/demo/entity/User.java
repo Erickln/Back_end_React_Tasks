@@ -1,6 +1,7 @@
 package com.concredito.redis.demo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -24,8 +25,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private boolean admin;
+    private List<Task> tasks; // Agregar lista de tareas
 
-    public void setId(String email) {
-        this.id = email;
-    }
+    // Otros métodos si son necesarios
 }

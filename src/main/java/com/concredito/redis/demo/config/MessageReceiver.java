@@ -1,9 +1,7 @@
-package com.concredito.redis.demo.service;
+package com.concredito.redis.demo.config;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
-import com.concredito.redis.demo.config.RabbitMQConfig;
 
 @Component
 public class MessageReceiver {

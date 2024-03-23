@@ -3,6 +3,8 @@ package com.concredito.redis.demo.controller;
 
 import com.concredito.redis.demo.entity.User;
 import com.concredito.redis.demo.service.UserService;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +18,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     @PostMapping
     public User save(@RequestBody User user) {
-        String hashedEmail = hashEmail(user.getEmail()); // Suponiendo que tienes una función para hashear el email
+        String hashedEmail = hashEmail(user.getEmail());
         user.setId(hashedEmail);
-        return userService.save(user);
+        User savedUser = userService.save(user);
+
+        // Envía un mensaje a RabbitMQ
+        rabbitTemplate.convertAndSend("test-exchange", "foo.bar.baz", "Usuario creado: " + savedUser.getId());
+
+        return savedUser;
     }
 
     @GetMapping

@@ -16,8 +16,10 @@ import lombok.NoArgsConstructor;
 public class Task implements Serializable {
 
     @Id
-    private String id;
+    private String id; // Unique identifier for the task
     private String name;
-    private Long salary;
+    private String description; // Added description field
+    private boolean completed; // Tracks whether the task is completed
 
+    // Consider adding more fields as needed, for example, dueDate, priority, etc.
 }
