@@ -1,7 +1,6 @@
 // UserRepository.java
 package com.concredito.redis.demo.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,11 +26,11 @@ public class UserRepository {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public List<User> findAll() {
-        return (List<User>) (List) hashOperations.values(HASH_KEY);
+        return (List) hashOperations.values(HASH_KEY);
     }
 
     public User findById(String id) {
-        return hashOperations.get(HASH_KEY, id);
+        return (User) hashOperations.get(HASH_KEY, id);
     }
 
     public String delete(String id) {
