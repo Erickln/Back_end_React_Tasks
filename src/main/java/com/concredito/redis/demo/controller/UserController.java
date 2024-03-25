@@ -1,6 +1,7 @@
 // UserController.java
 package com.concredito.redis.demo.controller;
 
+import com.concredito.redis.demo.config.MessageSender;
 import com.concredito.redis.demo.entity.User;
 import com.concredito.redis.demo.service.UserService;
 
@@ -21,6 +22,9 @@ public class UserController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    MessageSender messageSender;
+
     @PostMapping
     public User save(@RequestBody User user) {
         String hashedEmail = hashEmail(user.getEmail());
@@ -28,14 +32,23 @@ public class UserController {
         User savedUser = userService.save(user);
 
         // Envía un mensaje a RabbitMQ
-        rabbitTemplate.convertAndSend("test-exchange", "foo.bar.baz", "Usuario creado: " + savedUser.getId());
-
+        // rabbitTemplate.convertAndSend("test-exchange", "foo.bar.baz", "Usuario
+        // creado: " + savedUser.getId());
+        // messageSender.sendUser(savedUser);
         return savedUser;
     }
 
     @GetMapping
     public List<User> list() {
-        return userService.findAll();
+        // Enviar un mensaje a RabbitMQ para obtener todos los usuarios
+        System.out.println("Calling RabbitMQ to get all users");
+        // messageSender.getAll();
+        messageSender.getAll();
+        System.out.println("Exiting RabbitMQ call to get all users");
+        // Devolver null o algún tipo de indicación de que la respuesta está pendiente
+
+        return null;
+        // return null;
     }
 
     @GetMapping("/{id}")

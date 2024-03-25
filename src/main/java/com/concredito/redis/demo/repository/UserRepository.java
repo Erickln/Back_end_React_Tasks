@@ -26,7 +26,8 @@ public class UserRepository {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public List<User> findAll() {
-        return (List) hashOperations.values(HASH_KEY);
+        return (List<User>) (List) hashOperations.values(HASH_KEY);
+
     }
 
     public User findById(String id) {
