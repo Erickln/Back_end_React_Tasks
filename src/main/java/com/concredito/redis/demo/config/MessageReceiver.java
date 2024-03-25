@@ -41,10 +41,16 @@ public class MessageReceiver {
 
     @RabbitListener(queues = RabbitMQConfig.queueGetAll)
     public void receiveAll() {
-        System.out.println("Received: getAll22222222222");
-        System.out.println("Getting all users");
+        System.out.println("Received: getAll");
         List<User> users = userService.findAll();
-        System.out.println("Sending all users to client222");
-        System.out.println(users);
+        // Convert list of users to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String usersJson = objectMapper.writeValueAsString(users);
+            // Send the JSON response back to the sender
+            rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangResponseGetAll, "foo.bar.baz", usersJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
