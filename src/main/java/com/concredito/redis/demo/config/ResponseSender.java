@@ -19,6 +19,7 @@ public class ResponseSender {
     }
 
     public void sendResponseForFindUserById(String response) {
+        System.out.println("Sending response for find user by id");
         sendResponse(response, RabbitMQConfig.topicExchangeFindUserById);
     }
 

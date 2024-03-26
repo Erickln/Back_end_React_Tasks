@@ -5,6 +5,7 @@ import com.concredito.redis.demo.entity.Task;
 import com.concredito.redis.demo.entity.User;
 import com.concredito.redis.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,10 +38,6 @@ public class UserService {
         return userRepository.delete(id);
     }
 
-    public User patch(User user, String id) {
-        return userRepository.patch(user, id);
-    }
-
     public Task addTask(String userId, Task task) {
         User user = findById(userId);
         if (user != null) {
@@ -70,18 +67,16 @@ public class UserService {
         return null;
     }
 
-    public String deleteTask(String userId, String taskId) {
-        User user = findById(userId);
-        if (user != null) {
-            List<Task> tasks = user.getTasks();
-            for (Task task : tasks) {
-                if (taskId.equals(task.getId())) {
-                    tasks.remove(task);
-                    save(user);
-                    return "Task removed !!";
-                }
-            }
-        }
-        return "Task not found !!";
+    public User patch(User user, String id) {
+        return userRepository.patch(user, id);
+    }
+
+    public Task saveTask(Task task, String userId) {
+        System.out.println("Saving task: " + task + " for user: " + userId);
+        return userRepository.saveTask(task, userId);
+    }
+
+    public ResponseEntity<?> deleteTask(String userId, String taskId) {
+        return userRepository.deleteTask(userId, taskId);
     }
 }

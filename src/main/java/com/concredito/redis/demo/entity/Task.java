@@ -7,12 +7,16 @@ import org.springframework.data.redis.core.RedisHash;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @RedisHash("Task")
+@Setter
+@Getter
 public class Task implements Serializable {
 
     @Id

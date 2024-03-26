@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.concredito.redis.demo.entity.Task;
 import com.concredito.redis.demo.entity.User;
 import com.concredito.redis.demo.service.UserService;
 
@@ -27,6 +28,7 @@ public class MessageReceiver {
         // if it starts with "post.user" then it is a request to save a user
         // if it starts with "delete.user" then it is a request to delete a user
         // if it starts with "patch.user" then it is a request to update a user
+        // if it starts with "post.task" then it is a request to save a task
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -62,6 +64,27 @@ public class MessageReceiver {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (in.startsWith("post.task.")) {
+            System.out.println("Received request: post.task.*********");
+
+            // Recover id
+            // id is after the second "." and before the next "{"
+
+            String userId = in.substring(10, in.indexOf("{"));
+            System.out.println("User id: " + userId);
+
+            // Recover the task object
+            String taskString = in.substring(10 + userId.length());
+
+            System.out.println("Task string: " + taskString);
+            try {
+                System.out.println("Received request: post.task.");
+                Task task = objectMapper.readValue(taskString, Task.class);
+                System.out.println("Task: " + task);
+                userService.saveTask(task, userId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -88,7 +111,9 @@ public class MessageReceiver {
         ObjectMapper objectMapper = new ObjectMapper();
         String response = null;
         try {
+            System.out.println("User response: " + user);
             response = objectMapper.writeValueAsString(user);
+            System.out.println("Response: " + response);
         } catch (Exception e) {
             e.printStackTrace();
         }

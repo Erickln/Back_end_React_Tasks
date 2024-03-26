@@ -27,5 +27,9 @@ public class User implements Serializable {
     private boolean admin;
     private List<Task> tasks; // Agregar lista de tareas
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
     // Otros métodos si son necesarios
 }
