@@ -6,7 +6,6 @@ import com.concredito.redis.demo.entity.User;
 import com.concredito.redis.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -15,9 +14,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @SuppressWarnings("rawtypes")
-    private ResponseEntity reponseEntity;
 
     public User save(User user) {
         return userRepository.save(user);

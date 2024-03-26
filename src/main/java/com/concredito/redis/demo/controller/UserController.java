@@ -4,8 +4,6 @@ package com.concredito.redis.demo.controller;
 import com.concredito.redis.demo.config.MessageSender;
 import com.concredito.redis.demo.entity.User;
 import com.concredito.redis.demo.service.UserService;
-
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +16,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     MessageSender messageSender;

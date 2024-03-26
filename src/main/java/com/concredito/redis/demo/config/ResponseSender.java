@@ -13,6 +13,7 @@ public class ResponseSender {
     @Autowired
     private RabbitMQConfig rabbitMQConfig;
 
+    @SuppressWarnings("static-access")
     public void sendResponse(String response) {
         rabbitTemplate.convertAndSend(rabbitMQConfig.topicExchangResponseGetAll, "foo.bar.baz", response);
     }

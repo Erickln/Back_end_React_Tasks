@@ -3,9 +3,7 @@ package com.concredito.redis.demo.config;
 import java.util.List;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,9 +13,6 @@ import com.concredito.redis.demo.service.UserService;
 
 @Component
 public class MessageReceiver {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private UserService userService;

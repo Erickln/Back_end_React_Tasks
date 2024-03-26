@@ -30,6 +30,7 @@ public class UserRepository {
 
     }
 
+    @SuppressWarnings("null")
     public User findById(String id) {
         return (User) hashOperations.get(HASH_KEY, id);
     }
