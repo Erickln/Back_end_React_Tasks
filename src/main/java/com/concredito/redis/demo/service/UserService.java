@@ -29,6 +29,7 @@ public class UserService {
     }
 
     public User findById(String id) {
+        System.out.println("Sending user by id to client ontoi");
         return userRepository.findById(id);
     }
 
@@ -36,8 +37,8 @@ public class UserService {
         return userRepository.delete(id);
     }
 
-    public User patch(User user) {
-        return userRepository.patch(user);
+    public User patch(User user, String id) {
+        return userRepository.patch(user, id);
     }
 
     public Task addTask(String userId, Task task) {

@@ -10,11 +10,16 @@ public class ResponseSender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private RabbitMQConfig rabbitMQConfig;
-
-    @SuppressWarnings("static-access")
-    public void sendResponse(String response) {
-        rabbitTemplate.convertAndSend(rabbitMQConfig.topicExchangResponseGetAll, "foo.bar.baz", response);
+    public void sendResponse(String response, String exchangeName) {
+        rabbitTemplate.convertAndSend(exchangeName, "foo.bar.baz", response);
     }
+
+    public void sendResponseForGetAll(String response) {
+        sendResponse(response, RabbitMQConfig.topicExchangResponseGetAll);
+    }
+
+    public void sendResponseForFindUserById(String response) {
+        sendResponse(response, RabbitMQConfig.topicExchangeFindUserById);
+    }
+
 }

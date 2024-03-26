@@ -23,6 +23,12 @@ public class RabbitMQConfig {
 
     public static final String queueResponseGetAll = "response-get-all-users-queue";
 
+    public static final String queueFindUserById = "find-user-by-id-queue";
+
+    public static final String topicExchangeFindUserById = "find-user-by-id-exchange";
+
+    public static final String queueUserIdResponse = "user-id-response-queue";
+
     @Bean
     Queue queue() {
         return new Queue(queueUser, false);
@@ -54,6 +60,26 @@ public class RabbitMQConfig {
         return new TopicExchange(topicExchangResponseGetAll);
     }
 
+    @Bean
+    public Queue findUserByIdQueue() {
+        return new Queue(queueFindUserById, false);
+    }
+
+    @Bean
+    public TopicExchange findUserByIdExchange() {
+        return new TopicExchange(topicExchangeFindUserById);
+    }
+
+    @Bean
+    public Queue userIdResponseQueue() {
+        return new Queue(queueUserIdResponse, false);
+    }
+
+    @Bean
+    public TopicExchange userExchange() {
+        return new TopicExchange(topicExchangeUser);
+    }
+
     // Define el enlace entre la cola 'get.all.users' y el intercambio
     // 'user-exchange'
     @Bean
@@ -70,6 +96,18 @@ public class RabbitMQConfig {
     @Bean
     Binding responseBinding(@Qualifier("responseGetAllQueue") Queue queueResponseGetAll, TopicExchange getAllExchange) {
         return BindingBuilder.bind(queueResponseGetAll).to(getAllExchange).with("foo.bar.baz");
+    }
+
+    @Bean
+    public Binding bindingFindUserByIdQueue(@Qualifier("findUserByIdQueue") Queue queue,
+            @Qualifier("findUserByIdExchange") TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with("find-user-by-id");
+    }
+
+    @Bean
+    public Binding bindingUserIdResponseQueue(@Qualifier("userIdResponseQueue") Queue queue,
+            @Qualifier("userExchange") TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with("user-id-response");
     }
 
 }

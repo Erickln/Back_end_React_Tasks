@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import com.concredito.redis.demo.entity.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
 
 @Repository
@@ -40,7 +42,9 @@ public class UserRepository {
         return "User removed !!";
     }
 
-    public User patch(User user) {
-        return save(user);
+    public User patch(User user, String id) {
+        System.out.println("UserRepository: patch");
+        hashOperations.put(HASH_KEY, id, user);
+        return user;
     }
 }
