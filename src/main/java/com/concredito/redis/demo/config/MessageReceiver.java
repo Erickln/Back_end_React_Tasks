@@ -22,6 +22,9 @@ public class MessageReceiver {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ResponseSender responseSender;
+
     @RabbitListener(queues = RabbitMQConfig.queueUser)
     public void receive(String in) {
         System.out.println("Received: " + in);
@@ -40,17 +43,22 @@ public class MessageReceiver {
     }
 
     @RabbitListener(queues = RabbitMQConfig.queueGetAll)
-    public void receiveAll() {
-        System.out.println("Received: getAll");
+    public void receiveGetAll() {
+        System.out.println("Received request: getAll");
         List<User> users = userService.findAll();
-        // Convert list of users to JSON
+
+        System.out.println("Users found: " + users.size());
+
+        // Convert the list of users to JSON string
         ObjectMapper objectMapper = new ObjectMapper();
+        String response = null;
         try {
-            String usersJson = objectMapper.writeValueAsString(users);
-            // Send the JSON response back to the sender
-            rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangResponseGetAll, "foo.bar.baz", usersJson);
+            response = objectMapper.writeValueAsString(users);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Send the response back to the sender
+        responseSender.sendResponse(response);
     }
 }

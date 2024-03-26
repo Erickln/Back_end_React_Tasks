@@ -43,11 +43,9 @@ public class UserController {
         // Enviar un mensaje a RabbitMQ para obtener todos los usuarios
         System.out.println("Calling RabbitMQ to get all users");
         // messageSender.getAll();
-        messageSender.getAll();
-        System.out.println("Exiting RabbitMQ call to get all users");
-        // Devolver null o algún tipo de indicación de que la respuesta está pendiente
+        List<User> res = messageSender.getAll();
 
-        return null;
+        return res;
         // return null;
     }
 

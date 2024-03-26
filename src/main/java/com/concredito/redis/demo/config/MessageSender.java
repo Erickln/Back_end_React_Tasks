@@ -5,10 +5,14 @@ import java.util.List;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
 import com.concredito.redis.demo.entity.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 public class MessageSender {
@@ -39,21 +43,28 @@ public class MessageSender {
         }
     }
 
+    @SuppressWarnings("static-access")
     public List<User> getAll() {
-        // Send a message to the RabbitMQ queue with the request
-        System.out.println("Sending message to RabbitMQ");
+        // Envía un mensaje a la cola de RabbitMQ solicitando todos los usuarios
+        System.out.println("Sending message to RabbitMQ to get all users");
         rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeGetAll, "foo.bar.baz", "get.all.users");
-        System.out.println("Message sent");
 
-        return null;
-    }
+        // Espera la respuesta de RabbitMQ
+        String response = (String) rabbitTemplate.receiveAndConvert(RabbitMQConfig.queueResponseGetAll);
 
-    @RabbitListener(queues = com.concredito.redis.demo.config.RabbitMQConfig.queueResponseGetAll)
-    public void receiveResponse(String response) {
-        // Process the response received from the MessageReceiver
-        System.out.println("Received response from MessageReceiver: " + response);
-        // Now, you can send this response to the client or perform any other required
-        // action
+        // Procesa la respuesta
+        List<User> users = null;
+        if (response != null) {
+            // Convierte la respuesta JSON a una lista de usuarios
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                users = objectMapper.readValue(response, new TypeReference<List<User>>() {
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return users;
     }
 
 }
