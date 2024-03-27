@@ -17,6 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User save(User user) {
+        System.out.println("Saving user ontoi");
         return userRepository.save(user);
     }
 
@@ -30,7 +31,7 @@ public class UserService {
     }
 
     public User findById(String id) {
-        System.out.println("Sending user by id to client ontoi");
+        System.out.println("Sending user by id to client ontoiwerwer");
         return userRepository.findById(id);
     }
 

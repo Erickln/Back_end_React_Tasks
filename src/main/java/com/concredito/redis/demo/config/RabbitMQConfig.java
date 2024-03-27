@@ -108,4 +108,9 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(queue).to(userResponseExchange).with("user-id-response");
     }
 
+    @Bean
+    Binding bindingUserQueue(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.baz");
+    }
+
 }

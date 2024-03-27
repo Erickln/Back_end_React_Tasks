@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.concredito.redis.demo.entity.Task;
 import com.concredito.redis.demo.entity.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,11 @@ public class UserRepository {
 
     @SuppressWarnings("null")
     public User save(User user) {
-        hashOperations.put(HASH_KEY, user.getId(), user);
         if (user.getTasks() == null) {
             user.setTasks(new ArrayList<Task>());
         }
+        System.out.println("UserRepository: save");
+        hashOperations.put(HASH_KEY, user.getId(), user);
         return user;
     }
 
@@ -51,6 +51,7 @@ public class UserRepository {
         return "User removed !!";
     }
 
+    @SuppressWarnings("null")
     public User patch(User user, String id) {
         System.out.println("UserRepository: patch");
         System.out.println(user);

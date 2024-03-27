@@ -28,6 +28,7 @@ public class MessageSender {
     }
 
     public void sendUser(Object user) {
+        System.out.println("Sending message to RabbitMQ to save user");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String userJson = objectMapper.writeValueAsString(user);
